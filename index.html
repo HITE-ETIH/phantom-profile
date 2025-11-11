@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phantom | HITE — Medieval Profile (Fixed)</title>
+  <meta name="description" content="Medieval-themed profile for Phantom (HITE) with 3D tilt, map modal, raven popup, and fireflies." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#2a1b0a;--parchment:#efe3c4;--parchment-deep:#e2d2a3;--gild:#d4af37;--crimson:#7a1212;--accent:#3c2a1e;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;color:var(--ink);
+      background:url('https://wallpaperaccess.com/full/1388310.jpg') center/cover fixed no-repeat;
+      font-family:'Crimson Text',serif;line-height:1.6;overflow-x:hidden;
+    }
+    /* Corner blur UNDER content so footer stays crisp */
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+      background: radial-gradient(circle at center, rgba(0,0,0,.05), rgba(0,0,0,.6)),
+                  radial-gradient(ellipse at center, rgba(0,0,0,.35), rgba(0,0,0,0) 60%);
+      filter: blur(8px);
+    }
+
+    /* Header */
+    header{position:relative;z-index:2;text-align:center;padding:2.5rem 1rem 1.25rem;color:#f6f1d3}
+    .crest-bar{display:inline-flex;align-items:center;gap:1rem;padding:.4rem .9rem;border:2px solid var(--gild);border-radius:999px;background:linear-gradient(180deg,rgba(212,175,55,.35),rgba(212,175,55,.15));box-shadow:0 4px 20px rgba(0,0,0,.4),inset 0 0 0 2px rgba(255,255,255,.15)}
+    .crest-bar svg{width:26px;height:26px;fill:var(--gild);filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+    .brand{font-family:'UnifrakturMaguntia',cursive;font-size:clamp(2.2rem,4vw + 1rem,4rem);letter-spacing:.04em;color:#fff9dc;text-shadow:0 1px 0 #402c14,0 2px 0 #2b1c0e,0 3px 6px rgba(0,0,0,.6);margin:.4rem 0 0}
+    /* (subtitle removed on request) */
+
+    /* Main scroll */
+    .scroll-wrap{position:relative;z-index:1;max-width:1000px;margin:1rem auto 4rem;padding:0 1rem;perspective:1200px;perspective-origin:50% 30%}
+    .scroll{position:relative;background:url('https://thumbs.dreamstime.com/b/old-paper-texture-vintage-page-195692881.jpg') center/cover;border:1px solid #c2ad7a;border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.5),inset 0 0 60px rgba(255,255,255,.35),inset 0 0 6px rgba(0,0,0,.2);overflow:hidden;transform-style:preserve-3d;will-change:transform}
+    .scroll::before,.scroll::after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:min(96%,980px);height:22px;background:radial-gradient(circle at 20% 50%,#8e6a3f,#6e4f2a 60%,#3e2a14 100%);border:2px solid #2c1a0a;border-radius:12px;box-shadow:0 3px 6px rgba(0,0,0,.35),inset 0 0 10px rgba(0,0,0,.5)}
+    .scroll::before{top:-11px}.scroll::after{bottom:-11px}
+    .scroll-inner{padding:clamp(1.2rem,1.2rem + 2vw,2.2rem) clamp(2.4rem,2.6rem + 2vw,3.6rem);position:relative;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><defs><filter id="f"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="1" stitchTiles="stitch"/></filter></defs><rect width="100%" height="100%" fill="none"/><rect width="100%" height="100%" filter="url(%23f)" opacity="0.025"/></svg>');background-size:400px 400px}
+
+    /* Profile */
+    .profile{display:grid;grid-template-columns:170px 1fr;gap:2rem;align-items:flex-start}
+    .pfp{width:170px;height:170px;border-radius:20px;background:#b48b57;padding:4px;border:3px solid var(--gild);box-shadow:0 12px 26px rgba(0,0,0,.32);position:relative;overflow:hidden}
+    .pfp img{width:100%;height:100%;object-fit:cover;border-radius:16px;filter:saturate(1.05) contrast(1.05)}
+    .pfp::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 2px rgba(255,255,255,.2);border-radius:16px;pointer-events:none}
+    .name{display:flex;flex-direction:column;gap:.25rem;margin-top:1.1rem;margin-left:2.2rem;position:relative;z-index:1}
+    .display{font-family:'UnifrakturMaguntia',cursive;font-size:clamp(1.8rem,2vw + 1.2rem,3rem);color:var(--accent);text-shadow:0 1px 0 #fff2,0 2px 0 #0001}
+    .real{font-family:'IM Fell English SC',serif;letter-spacing:.18em;text-transform:uppercase;font-size:.95rem;color:#5a3f1f}
+
+    /* Badges */
+    .badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'IM Fell English SC',serif;letter-spacing:.08em;text-transform:uppercase;font-size:.85rem;padding:.35rem .6rem;border-radius:999px;border:1px dashed #423019;background:#f2e6c4;box-shadow:inset 0 0 0 1px #fff7,0 2px 6px rgba(0,0,0,.15)}
+
+    section{margin-top:2rem}
+    h2{font-family:'IM Fell English SC',serif;font-size:1.25rem;letter-spacing:.18em;text-transform:uppercase;margin:0 0 .6rem;padding-left:.75rem;color:#3a2613;position:relative}
+    h2::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:var(--crimson);box-shadow:0 0 0 3px #c9ad82}
+    p{margin:.6rem 0;font-size:1.05rem}
+    .dropcap:first-letter{float:left;font-family:'UnifrakturMaguntia',cursive;font-size:3.1rem;line-height:.8;padding:.18rem .5rem .2rem 0;color:var(--crimson);text-shadow:0 1px 0 #fff,0 2px 0 #0001,0 6px 10px rgba(0,0,0,.2)}
+
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+    .card{background:#f7edd0;border:1px solid #cbb58a;border-radius:14px;padding:1rem;position:relative;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.15),inset 0 0 60px rgba(255,255,255,.35);transform-style:preserve-3d;will-change:transform}
+    .card::after{content:"";position:absolute;inset:0;background:radial-gradient(200px 80px at top left,rgba(255,255,255,.3),transparent 60%),radial-gradient(200px 80px at bottom right,rgba(0,0,0,.06),transparent 60%);pointer-events:none}
+
+    /* Wax seal */
+    .seal{--size:88px;position:absolute;right:1rem;top:-22px;width:var(--size);height:var(--size);border-radius:50%;background:radial-gradient(circle at 30% 30%,#a81d1d,#7a1212 60%,#4f0a0a 100%);box-shadow:0 6px 10px rgba(0,0,0,.35),inset 0 6px 10px rgba(0,0,0,.25);color:#f7e7d7;display:grid;place-items:center;font-family:'IM Fell English SC',serif;letter-spacing:.12em;text-transform:uppercase;transform:rotate(-8deg);border:3px solid #3a0606}
+    .seal span{font-size:.7rem;text-align:center;line-height:1.1}
+
+    /* Timeline */
+    .timeline{position:relative;padding-left:1.25rem}
+    .timeline::before{content:"";position:absolute;left:.3rem;top:.3rem;bottom:.3rem;width:2px;background:linear-gradient(var(--crimson),var(--gild));box-shadow:0 0 8px rgba(0,0,0,.2)}
+    .t-item{position:relative;margin:.9rem 0;padding-left:.9rem}
+    .t-item::before{content:"";position:absolute;left:-2px;top:.2rem;width:10px;height:10px;border-radius:50%;background:var(--gild);border:1px solid #6b5419;box-shadow:0 0 0 3px #f4e6c8}
+
+    /* Footer */
+    footer{text-align:center;color:#eadfbe;padding:2rem 1rem 4rem;font-family:'IM Fell English SC',serif;letter-spacing:.16em;text-transform:uppercase;position:relative;z-index:2}
+
+    /* Torches */
+    .torch{position:fixed;top:20vh;left:3vw;width:180px;height:180px;pointer-events:none;z-index:0;background:radial-gradient(circle at 50% 50%,rgba(255,220,130,.45),rgba(255,150,50,.25) 40%,rgba(0,0,0,0) 60%);mix-blend-mode:screen;filter:blur(2px);animation:flicker 2.6s infinite}
+    .torch.r{left:auto;right:3vw;top:32vh;animation-delay:1.3s}
+    @keyframes flicker{0%,100%{transform:translateY(0) scale(1);opacity:.55}35%{transform:translateY(-2px) scale(1.05);opacity:.7}60%{transform:translateY(1px) scale(.97);opacity:.45}}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem .9rem;border-radius:10px;border:1px solid #9b7f51;background:linear-gradient(#f8edd0,#eadcb8);color:#3a2613;text-decoration:none;font-weight:700;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+    .btn:hover{filter:brightness(1.05)}
+
+    /* Fireflies */
+    .firefly{position:fixed;width:6px;height:6px;border-radius:50%;background:rgba(255,255,200,.95);box-shadow:0 0 10px 6px rgba(255,255,150,.85);pointer-events:none;z-index:0;animation:drift var(--t,9s) infinite alternate ease-in-out}
+    @keyframes drift{0%{transform:translate(0,0);opacity:.6}50%{transform:translate(40px,-60px);opacity:1}100%{transform:translate(-30px,30px);opacity:.4}}
+    .ff-follow{position:fixed;width:10px;height:10px;border-radius:50%;background:rgb(255,245,170);box-shadow:0 0 14px 8px rgba(255,235,130,.95);mix-blend-mode:screen;pointer-events:none;z-index:3}
+
+    @media (max-width:640px){.profile{grid-template-columns:1fr;text-align:center}.pfp{margin:0 auto}.seal{display:none}}
+  </style>
+</head>
+<body>
+  <div class="torch"></div>
+  <div class="torch r"></div>
+
+  <header>
+    <div class="crest-bar" aria-hidden="true">
+      <svg viewBox="0 0 24 24" role="img" aria-label="crest"><path d="M12 2l3 3h4v4l3 3-3 3v4h-4l-3 3-3-3H5v-4l-3-3 3-3V5h4l3-3z"/></svg>
+      <span>House of Phantom</span>
+      <svg viewBox="0 0 24 24" role="img" aria-label="crest"><path d="M12 2l3 3h4v4l3 3-3 3v4h-4l-3 3-3-3H5v-4l-3-3 3-3V5h4l3-3z"/></svg>
+    </div>
+    <h1 class="brand" aria-label="Display name">phantom</h1>
+  </header>
+
+  <main class="scroll-wrap">
+    <article class="scroll" role="article" aria-label="Parchment profile scroll">
+      <div class="scroll-inner">
+        <div class="profile">
+          <figure class="pfp" aria-label="Profile picture">
+            <img alt="Profile picture of Phantom" src="https://pbs.twimg.com/media/GdBWo2sWoAA9MLO.jpg"/>
+          </figure>
+          <div class="name">
+            <div class="display">phantom</div>
+            <div class="real">Name: HITE</div>
+            <div class="badges" role="list" aria-label="Profile badges">
+              <span class="badge" role="listitem" title="Age">18 summers</span>
+              <span class="badge" role="listitem" title="Birthday">Born: 2 March 2007</span>
+              <span class="badge" role="listitem" title="Hobby">Manhwa Reader</span>
+              
+            </div>
+          </div>
+        </div>
+
+        <section aria-labelledby="about">
+          <div class="seal" aria-hidden="true"><span>Sigil<br/>of<br/>Phantom</span></div>
+          <h2 id="about">Prologue</h2>
+          <p class="dropcap">Greetings, traveler. You have unscrolled the personal chronicle of <strong>phantom</strong>, known in the village ledgers as <em>HITE</em>. Fashioned upon parchment and sealed in crimson wax, this page recounts small truths and quiet habits, rendered in the hand of a scribe fond of warm ink and gilt.</p>
+          <p>In an age of banners and braziers, of candle-smoked rafters and carved oaken doors, phantom keeps counsel with stories—particularly the vivid tapestries of <strong>manhwa</strong>, page-bound epics that ride the wind like falcons across the mind.</p>
+        </section>
+
+        <section aria-labelledby="facts">
+          <h2 id="facts">Heraldry &amp; Marks</h2>
+          <div class="cards">
+            <div class="card"><h3 class="t-title">Name in the Rolls</h3><p>Recorded as <strong>HITE</strong>, yet called <strong>phantom</strong> upon the banners.</p></div>
+            <div class="card"><h3 class="t-title">Count of Years</h3><p><strong>18 years</strong> walked beneath sun and moon; grown in wisdom and wonder.</p></div>
+            <div class="card"><h3 class="t-title">Day of First Light</h3><p>Born upon <strong>2 March 2007</strong>, when the frost loosed its grip and the crocus dared the chill.</p></div>
+            <div class="card"><h3 class="t-title">Pastimes</h3><p>Keeper of quiet hours; <strong>manhwa</strong> is the chosen path—adventures inked in bold and breathless panels.</p></div>
+          </div>
+        </section>
+
+        <section aria-labelledby="timeline">
+          <h2 id="timeline">Small Chronicle</h2>
+          <div class="timeline" role="list">
+            <div class="t-item" role="listitem"><div class="t-title">A New Page</div><div class="t-meta">The present hour</div><p>These words are set in type and light; the sigil is sealed; the banner unfurled.</p></div>
+            <div class="t-item" role="listitem"><div class="t-title">The Quiet Forge</div><div class="t-meta">Many evenings</div><p>Stories read and kept like coals in a brazier, banked against the long night.</p></div>
+          </div>
+        </section>
+
+        <section aria-labelledby="contact">
+          <h2 id="contact">Messengers &amp; Seals</h2>
+          <p>If a raven must be sent, tie your note with a gold thread and cast it to the eastern wind.</p>
+          <p><a class="btn" href="#" aria-label="Send a Raven">Send a Raven</a></p>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> Phantom — All Rights Reserved beneath Moon and Sun.</div>
+  </footer>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Remove any previous cursor glow elements (if this is hot-reloaded)
+    document.querySelectorAll('[data-old-glow]').forEach(el=>el.remove());
+
+    // --- Background fireflies (20) ---
+    for(let i=0;i<20;i++){
+      const f=document.createElement('div');
+      f.className='firefly';
+      f.style.top=Math.random()*100+'vh';
+      f.style.left=Math.random()*100+'vw';
+      f.style.setProperty('--t',(6+Math.random()*10)+'s');
+      document.body.appendChild(f);
+    }
+
+    // --- Single firefly that follows the cursor (no big yellow glow) ---
+    (function(){
+      const follower=document.createElement('div');
+      follower.className='ff-follow';
+      document.body.appendChild(follower);
+      let tx=innerWidth/2, ty=innerHeight/2; let x=tx, y=ty;
+      window.addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;});
+      function tick(){ x += (tx-x)*0.14; y += (ty-y)*0.14; follower.style.transform=`translate(${x-5}px,${y-5}px)`; requestAnimationFrame(tick); }
+      tick();
+    })();
+
+    // --- Raven popup ---
+    document.querySelectorAll('.btn').forEach(btn=>{
+      if(btn.textContent.toLowerCase().includes('raven')){
+        btn.addEventListener('click',e=>{ e.preventDefault(); alert('A raven has been dispatched across the kingdoms!'); });
+      }
+    });
+
+    // --- Map button (top-right) with close ---
+    const mapBtn=document.createElement('button');
+    Object.assign(mapBtn.style,{position:'fixed',top:'20px',right:'20px',padding:'10px 14px',borderRadius:'10px',border:'1px solid #9b7f51',background:'#f8edd0',cursor:'pointer',zIndex:9999});
+    mapBtn.textContent='🗺️ Map';
+    document.body.appendChild(mapBtn);
+    mapBtn.addEventListener('click',()=>{
+      const overlay=document.createElement('div'); Object.assign(overlay.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.7)',zIndex:10000,display:'grid',placeItems:'center'});
+      const panel=document.createElement('div'); Object.assign(panel.style,{position:'relative',maxWidth:'90%',maxHeight:'90%',border:'4px solid #3a2613',boxShadow:'0 0 25px rgba(0,0,0,.7)',borderRadius:'14px',overflow:'hidden',background:'#f8edd0'});
+      const img=new Image(); img.src='https://i.pinimg.com/736x/0b/92/cf/0b92cf49bedddded229a569ce43db54a.jpg'; img.alt='Medieval Map'; Object.assign(img.style,{display:'block',maxWidth:'100%',maxHeight:'100%'});
+      const closeBtn=document.createElement('button'); closeBtn.textContent='Close'; Object.assign(closeBtn.style,{position:'absolute',top:'10px',right:'10px',padding:'6px 10px',borderRadius:'6px',border:'1px solid #3a2613',background:'#f8edd0',cursor:'pointer'});
+      const close=()=>overlay.remove(); overlay.addEventListener('click',e=>{if(e.target===overlay) close();}); closeBtn.addEventListener('click',close);
+      panel.appendChild(img); panel.appendChild(closeBtn); overlay.appendChild(panel); document.body.appendChild(overlay);
+    });
+
+    // ==============================
+    // 3D TILT (physics) — from your working approach, integrated cleanly
+    // ==============================
+    (function(){
+      function makeTilt(el,{max=8,spring=0.16,friction=0.06,hasShadow=true}={}){
+        if(!el) return;
+        el.style.transformStyle='preserve-3d'; el.style.willChange='transform';
+        // sheen
+        let sheen=document.createElement('div');
+        Object.assign(sheen.style,{position:'absolute',inset:'0',pointerEvents:'none',background:'radial-gradient(120% 80% at var(--sx,50%) var(--sy,50%), rgba(255,255,255,.18), rgba(255,255,255,0) 60%)',mixBlendMode:'overlay',opacity:'0.35',transform:'translateZ(2px)'});
+        if(getComputedStyle(el).position==='static') el.style.position='relative';
+        el.appendChild(sheen);
+        // shadow
+        let sh=null; if(hasShadow && el.parentElement){ sh=document.createElement('div'); Object.assign(sh.style,{position:'absolute',left:'6%',right:'6%',bottom:'-18px',height:'28px',background:'radial-gradient(60% 100% at 50% 0%, rgba(0,0,0,.45), rgba(0,0,0,0))',filter:'blur(6px)',zIndex:0,pointerEvents:'none'});
+          if(getComputedStyle(el.parentElement).position==='static') el.parentElement.style.position='relative'; el.parentElement.appendChild(sh); }
+        let rx=0,ry=0,rxT=0,ryT=0,hover=false,raf=0;
+        function setTarget(e){ const r=el.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width; const py=(e.clientY-r.top)/r.height; rxT=(py-0.5)*-2*max; ryT=(px-0.5)*2*max; el.style.setProperty('--sx',Math.round(px*100)+'%'); el.style.setProperty('--sy',Math.round(py*100)+'%'); }
+        function animate(){ const dx=rxT-rx, dy=ryT-ry; rx+=dx*spring; ry+=dy*spring; rx*=(1-friction); ry*=(1-friction); el.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`; if(sh){ const mag=Math.hypot(rx,ry); sh.style.height=(28+mag*2)+'px'; sh.style.opacity=String(Math.min(1,0.55+mag/25)); } if(hover || Math.abs(dx)>0.001 || Math.abs(dy)>0.001){ raf=requestAnimationFrame(animate);} }
+        function enter(e){ hover=true; setTarget(e); cancelAnimationFrame(raf); raf=requestAnimationFrame(animate);} 
+        function move(e){ setTarget(e);} 
+        function leave(){ hover=false; rxT=0; ryT=0; cancelAnimationFrame(raf); raf=requestAnimationFrame(animate);} 
+        el.addEventListener('pointerenter',enter,{passive:true}); el.addEventListener('pointermove',move,{passive:true}); el.addEventListener('pointerleave',leave,{passive:true});
+      }
+      const scrollEl=document.querySelector('.scroll'); if(scrollEl) makeTilt(scrollEl,{max:4,spring:0.18,friction:0.06,hasShadow:true});
+      document.querySelectorAll('.card').forEach(c=>makeTilt(c,{max:6,spring:0.20,friction:0.08,hasShadow:false}));
+    })();
+  </script>
+</body>
+</html>
